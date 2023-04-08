@@ -4,17 +4,15 @@
 
     <div class="wj_login" v-show="wj_login">
       <div class="wj_login_table">
-      <form action="http://127.0.0.1:8001/userRegister" method="post">
         <div class="wj_login_username">
-          <input name="username" type="text" placeholder="用户名"><br>
+          <input v-model="username" name="username" type="text" placeholder="用户名"><br>
         </div>
         <div class="wj_login_password">
-          <input name="password" type="password" placeholder="密码"><br>
+          <input v-model="password" name="password" type="password" placeholder="密码"><br>
         </div>
         <div class="wj_login_button">
-          <button type="submit">注册</button>
+          <button @click="wj_register_func" type="button">注册</button>
         </div>
-      </form>
       </div>
 
     </div>
@@ -310,21 +308,55 @@ export default {
       'img_search':'/img_book/',
       'books_myshelf':[],
       'wj_index_1001':false,
-      'wj_login':true
+      'wj_login':true,
+      'username':'root',
+      'password':'root',
+      'error_message':''
     }
   },
   methods: {
+    wj_register_func(){
+      // console.log('>>>',this.username)
+      // console.log('>>>',this.password)
+      axios({
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method:'post',
+        url:'http://127.0.0.1:8001/userRegister/',
+        data:{
+          'username':this.username,
+          'password':this.password
+        },
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }).then(res=>{
+        let info = res.data
+        this.error_message = info.error_message
+        if (info.status === 'success'){
+          this.wj_login = false
+          this.wj_index_1001 = true
+          this.user = this.username
+          // sessionStorage.setItem('username',this.username)
+          // sessionStorage.setItem('password',this.password)
+        }else{
+          alert(this.error_message)
+        }
+        // console.log('>>',res.data)
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     img_myshelf(ms){
       let img_ms = '/img_book/'+ms.pic+'.jpg'
       return img_ms
     },
     resumeSearch(){
-      this.wj_index_box01 = false
-      this.wj_search_list = true
+        this.wj_index_box01 = false
+        this.wj_search_list = true
     },
     resumeIndex(){
-      this.wj_index_box01 = true
-      this.wj_search_list = false
+        this.wj_index_box01 = true
+        this.wj_search_list = false
     },
     getImgSearch(s){
       let res = this.img_search+s.pic+'.jpg'
