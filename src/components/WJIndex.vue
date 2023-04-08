@@ -1,7 +1,6 @@
 <template>
   <div>
 
-
     <div class="wj_login" v-show="wj_login">
       <div class="wj_login_table">
         <div class="wj_login_username">
@@ -11,8 +10,34 @@
           <input v-model="password" name="password" type="password" placeholder="密码"><br>
         </div>
         <div class="wj_login_button">
+          <button @click="wj_login_func" type="button">登录</button>
+        </div>
+
+        <div class="wj_login_button_return">
+          <button @click="wj_register_login_resume" type="button">返回首页</button>
+        </div>
+
+
+      </div>
+    </div>
+
+    <div class="wj_register" v-show="wj_register">
+      <div class="wj_register_table">
+        <div class="wj_register_username">
+          <input v-model="username" name="username" type="text" placeholder="用户名"><br>
+        </div>
+        <div class="wj_register_password">
+          <input v-model="password" name="password" type="password" placeholder="密码"><br>
+        </div>
+        <div class="wj_register_button">
           <button @click="wj_register_func" type="button">注册</button>
         </div>
+
+        <div class="wj_register_button_return">
+          <button @click="wj_register_login_resume" type="button">返回首页</button>
+        </div>
+
+
       </div>
 
     </div>
@@ -28,28 +53,17 @@
             </li>
             <li>|</li>
             <li>
-              <a href="#">
+              <a @click="wj_jump_register_func" href="#">
                 注册
               </a>
             </li>
             <li>|</li>
             <li>
-              <a href="#">
+              <a @click="wj_jump_login_func" href="#">
                 登录
               </a>
             </li>
-            <li>|</li>
-            <li>
-              <a href="#wj_catdgory_id">
-                分类榜单
-              </a>
-            </li>
-            <li>|</li>
-            <li>
-              <a href="#wj_myshelf_id">
-                我的书架
-              </a>
-            </li>
+
           </ul>
         </div>
         <div class="wj_nav_logo" v-show="wj_index_box01">
@@ -83,27 +97,6 @@
 
       <div class="wj_index_box01" v-show="wj_index_box01">
 
-        <div class="wj_myshelf" id="wj_myshelf_id">
-          <div class="wj_myshelf_title">
-            我的书架
-            <span>
-            <a href="#">
-            查看我的书架 >
-            </a>
-          </span>
-          </div>
-          <div class="wj_myshelf_list">
-            <a href="#" v-for="ms in this.books_myshelf" :key="ms.id">
-              <div class="wj_myshelf_item">
-                <div class="wj_myshelf_item_img">
-                  <img :src="img_myshelf(ms)" alt="图片找不到...">
-                </div>
-                <p class="wj_myshelf_item_title">{{ms.bookName}}</p>
-                <p>{{ms.author}}</p>
-              </div>
-            </a>
-          </div>
-        </div>
 
         <div class="wj_like">
           <div class="wj_like_title">
@@ -122,114 +115,6 @@
           </div>
         </div>
 
-        <div class="wj_category" id="wj_catdgory_id">
-          <div class="wj_category_title">
-            分类榜单
-          </div>
-          <div class="wj_category_list">
-            <a href="">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-            <a href="#">
-              <div class="wj_category_item">
-                <a href="#">
-                  <span>精品小说·18374本</span>
-                </a>
-              </div>
-
-            </a>
-
-
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -243,23 +128,40 @@ import axios from 'axios'
 export default {
   name: "WJIndex",
   mounted() {
+    // 从session中获取用户的信息
+    let username = window.sessionStorage.getItem('username')
 
-    let username = sessionStorage.getItem('username')
+    let password = window.sessionStorage.getItem('password')
 
-    let password = sessionStorage.getItem('username')
-
+    // console.log('>>',username)
+    // console.log('>>',password)
+    // 根据session保存的信息加载"我的书架"的信息,session还保存有用户数据的话直接发送Ajax请求获取用户对应的书架数据信息,否
+    // 则的话是普通用户,
+    // 直接存储默认的图片
     if (username !== '' && password !== '' && username !== null && password !== null){
-
       axios({
+        // 这个不加的话服务端是收不到信息的说
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
         'method':'post',
-        'url':'http://127.0.0.1:8001/login',
+        'url':'http://127.0.0.1:8001/login/',
         'data':{
           'username':username,
           'password':password
         }
       }).then(res=>{
-        this.books_myshelf = res.data
-        console.log('>>>',this.books_myshelf)
+        // 保存用户书架信息
+        // this.books_myshelf = res.data
+        let info = res.data
+        this.error_message_login = res.data.error_message_login
+        this.user = username
+        // console.log('>>>>',username)
+        // console.log('>>>>',password)
+        // console.log('>>>',this.books_myshelf)
+        if (info.status !== 'success'){
+          alert(this.error_message_login)
+        }
       }).catch(err=>{
         console.log('发生错误!!:',err)
       })
@@ -272,6 +174,7 @@ export default {
       this.books_myshelf = books_default
     }
 
+    // 挂载的时候查询喜欢的书籍
     axios({
       'method': 'get',
       'url': 'http://127.0.0.1:8001/likeData'
@@ -283,6 +186,7 @@ export default {
       console.log('>>>出错!!报错信息:', res)
     })
 
+    // 挂载的时候查询所有的书籍
     axios({
       'method': 'get',
       'url': 'http://127.0.0.1:8001/allBooks'
@@ -292,8 +196,6 @@ export default {
     }).catch(err => {
       console.log('报错!!', err)
     })
-
-
   },
   data() {
     return {
@@ -307,18 +209,70 @@ export default {
       'filterBooks': [],
       'img_search':'/img_book/',
       'books_myshelf':[],
-      'wj_index_1001':false,
-      'wj_login':true,
+      'wj_index_1001':true,
+      'wj_register':false,
+      'wj_login':false,
       'username':'root',
       'password':'root',
-      'error_message':''
+      'error_message':'',
+      'error_message_login':''
     }
   },
   methods: {
+    wj_register_login_resume(){
+      this.wj_index_1001 = true
+      this.wj_login = false
+      this.wj_register = false
+    },
+    wj_jump_login_func(){
+      this.wj_register = false
+      this.wj_index_1001 = false
+      this.wj_login = true
+    },
+    wj_login_func(){
+      // console.log('>>>',this.username)
+      // console.log('>>>',this.password)
+      // 发送Ajax请求
+      axios({
+        // 这个不加的话服务端是收不到信息的说
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        method:'post',
+        url:'http://127.0.0.1:8001/login/',
+        data:{
+          'username':this.username,
+          'password':this.password
+        },
+      }).then(res=>{
+        let info = res.data
+        this.error_message_login = info.error_message_login
+        if (info.status === 'success'){
+          this.wj_login = false
+          this.wj_register = false
+          this.wj_index_1001 = true
+          this.user = this.username
+          sessionStorage.setItem('username',this.username)
+          sessionStorage.setItem('password',this.password)
+        }else{
+          alert(this.error_message_login)
+        }
+        // console.log('>>',res.data)
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    wj_jump_register_func(){
+      this.wj_register = true
+      this.wj_index_1001 = false
+    },
+    // 点击注册按钮触发注册事件
     wj_register_func(){
       // console.log('>>>',this.username)
       // console.log('>>>',this.password)
+      // 发送Ajax请求
       axios({
+        // 这个不加的话服务端是收不到信息的说
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
@@ -328,16 +282,15 @@ export default {
           'username':this.username,
           'password':this.password
         },
-        'Content-Type': 'application/x-www-form-urlencoded'
       }).then(res=>{
         let info = res.data
         this.error_message = info.error_message
         if (info.status === 'success'){
-          this.wj_login = false
+          this.wj_register = false
           this.wj_index_1001 = true
           this.user = this.username
-          // sessionStorage.setItem('username',this.username)
-          // sessionStorage.setItem('password',this.password)
+          sessionStorage.setItem('username',this.username)
+          sessionStorage.setItem('password',this.password)
         }else{
           alert(this.error_message)
         }
@@ -378,6 +331,7 @@ export default {
 </script>
 
 <style scoped>
+/* 登录 */
 .wj_login{
   width: 500px;
   height: 300px;
@@ -389,7 +343,7 @@ export default {
 .wj_login_table{
   width: 400px;
   height: 300px;
-  margin: 40px auto;
+  margin: 10px auto;
   /*background-color: red;*/
   overflow: hidden;
 }
@@ -428,6 +382,30 @@ export default {
   margin-top: 50px;
   margin-left: 50px;
 }
+
+.wj_login .wj_login_button_return button{
+  margin-top: 5px;
+  margin-left: 50px;
+  font-weight: bold;
+  /*font-size: 20px;*/
+  width: 296px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #4e6ef2;
+  opacity: 0.9;
+}
+.wj_register .wj_register_button_return button{
+  margin-top: 5px;
+  margin-left: 50px;
+  font-weight: bold;
+  /*font-size: 20px;*/
+  width: 296px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #4e6ef2;
+  opacity: 0.9;
+}
+
 .wj_login .wj_login_button button{
   font-weight: bold;
   /*font-size: 20px;*/
@@ -437,7 +415,80 @@ export default {
   background-color: #4e6ef2;
   opacity: 0.9;
 }
+
 .wj_login .wj_login_button button:hover{
+  opacity: 1;
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+.wj_login .wj_login_button_return button:hover{
+  opacity: 1;
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+.wj_register .wj_register_button_return button:hover{
+  opacity: 1;
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+/* 注册 */
+.wj_register{
+  width: 500px;
+  height: 300px;
+  margin: 100px auto;
+  background-color: #f5f3f3;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.wj_register_table{
+  width: 400px;
+  height: 300px;
+  margin: 10px auto;
+  /*background-color: red;*/
+  overflow: hidden;
+}
+.wj_register_table .wj_register_username{
+  margin-top: 30px;
+  margin-left: 50px;
+}
+.wj_register_table .wj_register_username input{
+  padding-left: 10px;
+  height: 40px;
+  width: 296px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 8px;
+}
+.wj_register_table .wj_register_username input:hover{
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+.wj_register_table .wj_register_password input:hover{
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+.wj_register_table .wj_register_password{
+  margin-top: 30px;
+  margin-left: 50px;
+}
+.wj_register_table .wj_register_password input{
+  padding-left: 10px;
+  height: 40px;
+  width: 296px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+
+}
+.wj_register .wj_register_button{
+  margin-top: 50px;
+  margin-left: 50px;
+}
+.wj_register .wj_register_button button{
+  font-weight: bold;
+  /*font-size: 20px;*/
+  width: 296px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #4e6ef2;
+  opacity: 0.9;
+}
+.wj_register .wj_register_button button:hover{
   opacity: 1;
   box-shadow: 3px 3px 21px 3px #e8e0e0;
 }
