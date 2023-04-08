@@ -6,13 +6,13 @@
       <div class="wj_login_table">
       <form action="http://127.0.0.1:8001/userRegister" method="post">
         <div class="wj_login_username">
-          用户名:<input name="username" type="text"><br>
+          <input name="username" type="text" placeholder="用户名"><br>
         </div>
         <div class="wj_login_password">
-          密&emsp;码:<input name="password" type="password"><br>
+          <input name="password" type="password" placeholder="密码"><br>
         </div>
         <div class="wj_login_button">
-          <button type="submit">提交</button>
+          <button type="submit">注册</button>
         </div>
       </form>
       </div>
@@ -350,13 +350,13 @@ export default {
   width: 500px;
   height: 300px;
   margin: 100px auto;
-  background-color: aqua;
+  background-color: #f5f3f3;
   border-radius: 20px;
   overflow: hidden;
 }
 .wj_login_table{
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
   margin: 40px auto;
   /*background-color: red;*/
   overflow: hidden;
@@ -365,19 +365,49 @@ export default {
   margin-top: 30px;
   margin-left: 50px;
 }
+.wj_login_table .wj_login_username input{
+  padding-left: 10px;
+  height: 40px;
+  width: 296px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 8px;
+}
+.wj_login_table .wj_login_username input:hover{
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
+.wj_login_table .wj_login_password input:hover{
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
+}
 .wj_login_table .wj_login_password{
   margin-top: 30px;
   margin-left: 50px;
 }
+.wj_login_table .wj_login_password input{
+  padding-left: 10px;
+  height: 40px;
+  width: 296px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 15px;
+
+}
 .wj_login .wj_login_button{
   margin-top: 50px;
-  margin-left: 222px;
+  margin-left: 50px;
 }
 .wj_login .wj_login_button button{
   font-weight: bold;
   /*font-size: 20px;*/
-  width: 40px;
-  height: 30px;
+  width: 296px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #4e6ef2;
+  opacity: 0.9;
+}
+.wj_login .wj_login_button button:hover{
+  opacity: 1;
+  box-shadow: 3px 3px 21px 3px #e8e0e0;
 }
 .wj_nav_home {
   width: 1519px;
